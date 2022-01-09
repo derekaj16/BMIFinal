@@ -1,0 +1,333 @@
+<!--
+
+Derek Johnson
+
+Section 4
+
+-->
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>BMI Fitness Calculator</title>
+
+    <style>
+        /* Making my webage look all sexy and stuff */
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        body {
+            background-color: rgb(35,37,41);
+            width: 100%;
+            justify-content: center;
+        }
+        button {
+            padding: 25px;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background-color: rgb(110,155,248);
+            color: white;
+            font-size: 24px; 
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            display: block;
+            margin: 10px auto;
+        }
+        button:hover {
+            background-color: rgb(92,133,211);
+        }
+        .calculation {
+            margin: 0 auto;
+        }
+        .error-message {
+            color: orange;
+            font-size: 18px;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            display: none;
+        }
+        .input-boxes {
+            display: block;
+        }
+        input {
+            background-color: rgb(55,58,74);
+            height: 20px;
+            font-size: 20px;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            color: white;
+            border-bottom: 3px rgb(87,91,118) solid;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            padding: 10px;
+            margin: 0 10px;
+            width: 60px;
+        }
+        input:focus::-webkit-input-placeholder { 
+            color:transparent; 
+        }
+        input:focus {
+            outline: none;
+        }
+        ::-webkit-input-placeholder {
+            color: rgb(130,137,177);
+        }
+        .main-content {
+            justify-content: center;
+            padding: 50px;
+            width: 25%;
+            margin: 0 auto;
+            
+        }
+        .name-box {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            color: white;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: 20px;
+        }
+        .overlay {
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(0,0,0,.7);
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+        }
+        .popup {
+            position: absolute;
+            padding: 50px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background-color: rgb(55,58,74);
+            text-align: center;
+            opacity: 180%;
+            width: 350px;
+        }
+        .popup button {
+            display: inline-block;
+            padding: 20px;
+            background-color: rgb(55,58,74);
+            color: rgb(110,155,248);
+        }
+        .popup button:hover {
+            background-color: rgb(37,39,51);
+        }
+        .popup p {
+            text-align: left;
+        }
+        h1 {
+            padding: 40px;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background-color: rgb(55,58,74);
+            color: white;
+            margin: 0 auto 10px auto;
+            text-align: center;
+        }
+        p {
+            padding: 25px;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background-color: rgb(55,58,74);
+            color: white;
+            font-size: 24px; 
+            margin: 0 auto;
+            text-align: center;
+            display: block;
+            margin: 10px auto;
+        }
+        
+    </style>
+
+</head>
+
+<body>
+
+    <div class="main-content">
+        <h1>BMI Calculator</h1>
+        <div class="caluclation">
+            <p id="result">---</p>
+            <button onclick="showPopUp(0)">Calculate my BMI</button>
+        </div>
+    </div>
+
+    <!-- GET THE HEIGHT -->
+    <div class="overlay">
+        <div class="popup">
+            <p>Please enter your height.</p>
+            
+            <form>
+                <div class="input-boxes">
+                    <input type="text" id="feet" placeholder="Feet">
+                    <input type="text" id="inches" placeholder="Inches">
+                </div>  
+                <button id="no-refresh-btn1" onclick="getHeight()">OK</button>    
+                <button id="no-refresh-btn2" onclick="hidePopUp(0); clearVals()">Cancel</button> 
+
+            </form>
+
+            <span class="error-message">Please enter a valid number</span>
+        </div>
+    </div>
+
+    <!-- GET THE WEIGHT -->
+    <div class="overlay">
+        <div class="popup">
+            <p>Please enter your weight.</p>
+            
+            <form>
+                <div class="input-boxes">
+                    <input type="text" id="weight" placeholder="lbs">
+                </div>
+                <button id="no-refresh-btn3" onclick="getWeight()">OK</button>    
+                <button id="no-refresh-btn4" onclick="hidePopUp(1); clearVals()">Cancel</button> 
+
+            </form>
+
+            <span class="error-message">Please enter a valid number</span>    
+        </div>
+    </div>
+
+    <!-- FINAL SUMMARY -->
+    <div class="overlay">
+        <div class="popup">
+            <p>Your BMI is <span id="currentBMI">--</span><br>
+            <br>
+            You are currently <span id="currentWeight"></span><br>
+            <br>
+            Here are some tips for better health!<br>
+                <br>
+                Maintain a Healthy Weight<br>
+                Increase Physical Activity<br>
+                Eat a Heart-Healthy Diet<br>
+                Know and Control Your Health Numbers
+            </p>
+            <button id="no-refresh-btn5" onclick="hidePopUp(2); clearVals(); hideError(0); hideError(1)">OK</button> 
+        </div>
+    </div>
+
+    <div class="name-box">
+        By: Derek Johnson
+    </div>
+
+    <script type="text/javascript">
+
+        var feet;
+        var inches;
+        var weight;
+        var BMI;
+
+        // Keep buttons from refreshing the page
+        document.querySelector("#no-refresh-btn1").addEventListener("click", function(event) {event.preventDefault();}, false);
+        document.querySelector("#no-refresh-btn2").addEventListener("click", function(event) {event.preventDefault();}, false);
+        document.querySelector("#no-refresh-btn3").addEventListener("click", function(event) {event.preventDefault();}, false);
+        document.querySelector("#no-refresh-btn4").addEventListener("click", function(event) {event.preventDefault();}, false);
+        document.querySelector("#no-refresh-btn5").addEventListener("click", function(event) {event.preventDefault();}, false);
+
+        // Make buttons work with enter key
+        var input = document.getElementById("myInput");
+        input.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                document.getElementById("myBtn").click();
+            }
+        });
+
+        // Functions
+        function displayError(errorNum) {
+            document.getElementsByClassName("error-message")[errorNum].style.display = "block";
+        };
+        
+        function hideError(errorNum) {
+            document.getElementsByClassName("error-message")[errorNum].style.display = "none";
+        };
+
+        function showPopUp(elementNum) {
+            document.getElementsByClassName("overlay")[elementNum].style.display = "block";
+        };
+
+        function hidePopUp(elementNum) {
+            document.getElementsByClassName("overlay")[elementNum].style.display = "none";
+        };
+
+        function clearVals() {
+            document.getElementById("feet").value = '';
+            document.getElementById("inches").value = '';
+            document.getElementById("weight").value = '';
+        }; 
+
+        function getHeight() {
+            feet = document.getElementById("feet").value;
+            inches = document.getElementById("inches").value;
+
+            // Error check to see if invalid values are entered
+            if (isNaN(feet) == true || feet < 0) {
+                displayError(0);
+                clearVals();
+            } else if (isNaN(inches) == true || inches < 0 || inches >= 12) {
+                displayError(0);
+                clearVals();
+            } else {
+                feet = document.getElementById("feet").value;
+                inches = document.getElementById("inches").value;
+                hidePopUp(0);
+                showPopUp(1);
+            }
+        };
+
+        function getWeight() {
+            weight = document.getElementById("weight").value;
+
+            // Error check to see if invalid values are entered
+            if (isNaN(weight) == true || weight < 0) {
+                displayError(1);
+                clearVals();
+            } else {
+                weight = document.getElementById("weight").value;
+                runBMI();
+                hidePopUp(1);
+                showPopUp(2);
+            }
+        };
+
+        function runBMI() {
+            
+            // Display BMI
+            document.getElementById("currentWeight").innerHTML = calcBMI(feet,inches,weight);
+            document.getElementById("result").innerHTML = BMI.toFixed(2);
+            document.getElementById("currentBMI").innerHTML = BMI.toFixed(2);
+            
+            function calcBMI(feet,inches,weight) {
+                var totalInches = +feet*12 + +inches;
+
+                // Error check
+                if (totalInches == 0 || weight == 0) {
+                    BMI = 0
+                } else {
+                    BMI = (weight/totalInches**2) * 703;
+                }
+
+                if (BMI < 18.5) {
+                    return "underweight";
+                } else if (BMI < 25) {
+                    return "a normal weight";
+                } else if (BMI < 30) {
+                    return "overweight";
+                } else {
+                    return "obese";
+                }
+            };   
+
+        };
+ 
+    </script>
+
+</body>
+
+</html>
