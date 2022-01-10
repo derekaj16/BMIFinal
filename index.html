@@ -152,6 +152,7 @@ Section 4
 
 <body>
 
+    <!-- MAIN PAGE -->
     <div class="main-content">
         <h1>BMI Calculator</h1>
         <div class="caluclation">
@@ -170,9 +171,12 @@ Section 4
                     <input type="text" id="feet" placeholder="Feet">
                     <input type="text" id="inches" placeholder="Inches">
                 </div>  
-                <button id="no-refresh-btn1" onclick="getHeight()">OK</button>    
-                <button id="no-refresh-btn2" onclick="hidePopUp(0); clearVals()">Cancel</button> 
-
+                <button id="no-refresh-btn1" onclick="getHeight()">
+                    OK
+                </button>    
+                <button id="no-refresh-btn2" onclick="hidePopUp(0); clearVals(); hideError(0); hideError(1)">
+                    Cancel
+                </button> 
             </form>
 
             <span class="error-message">Please enter a valid number</span>
@@ -188,9 +192,12 @@ Section 4
                 <div class="input-boxes">
                     <input type="text" id="weight" placeholder="lbs">
                 </div>
-                <button id="no-refresh-btn3" onclick="getWeight()">OK</button>    
-                <button id="no-refresh-btn4" onclick="hidePopUp(1); clearVals()">Cancel</button> 
-
+                <button id="no-refresh-btn3" onclick="getWeight()">
+                    OK
+                </button>    
+                <button id="no-refresh-btn4" onclick="hidePopUp(1); clearVals(); hideError(0); hideError(1)">
+                    Cancel
+                </button> 
             </form>
 
             <span class="error-message">Please enter a valid number</span>    
@@ -211,7 +218,9 @@ Section 4
                 Eat a Heart-Healthy Diet<br>
                 Know and Control Your Health Numbers
             </p>
-            <button id="no-refresh-btn5" onclick="hidePopUp(2); clearVals(); hideError(0); hideError(1)">OK</button> 
+            <button id="no-refresh-btn5" onclick="hidePopUp(2); clearVals(); hideError(0); hideError(1)">
+                OK
+            </button> 
         </div>
     </div>
 
