@@ -1,19 +1,21 @@
 <!--
+    Author: Derek Johnson
+    IS303 Section 4
 
-Derek Johnson
-
-Section 4
-
+    Description: This website calculates the BMI using the height
+    and weight that the user inputs. It checks for errors
+    and displays tips for better health at the end.
 -->
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 
 <head>
 
     <title>BMI Fitness Calculator</title>
-    
+
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
@@ -25,7 +27,7 @@ Section 4
         body {
             background-color: rgb(35,37,41);
             width: 100%;
-            justify-content: center;
+
         }
         button {
             padding: 25px;
@@ -87,19 +89,9 @@ Section 4
             color: rgb(130,137,177);
         }
         .main-content {
-            justify-content: center;
             padding: 50px;
             width: 360px;
             margin: 0 auto;
-            
-        }
-        .name-box {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            color: white;
-            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            font-size: 20px;
         }
         .overlay {
             z-index: 2;
@@ -150,7 +142,7 @@ Section 4
         #result {
             cursor:default;
         }
-        
+
     </style>
 
 </head>
@@ -164,9 +156,18 @@ Section 4
             <p id="result">---</p>
             <button onclick="showPopUp(0)">Calculate my BMI</button>
         </div>
+        <div class="graph">
+            <div class="bar-container">
+                <div class="bar" id="bar-1"></div>
+                <div class="bar bar-2"></div>
+                <div class="bar bar-3"></div>
+            </div>
+        </div>
     </div>
 
-    <!-- GET THE HEIGHT -->
+
+
+    <!-- GET THE HEIGHT POPUP -->
     <div class="overlay">
         <div class="popup">
             <p>Please enter your height.</p>
@@ -188,7 +189,7 @@ Section 4
         </div>
     </div>
 
-    <!-- GET THE WEIGHT -->
+    <!-- GET THE WEIGHT POPUP -->
     <div class="overlay">
         <div class="popup">
             <p>Please enter your weight.</p>
@@ -209,14 +210,14 @@ Section 4
         </div>
     </div>
 
-    <!-- FINAL SUMMARY -->
+    <!-- FINAL SUMMARY POPUP -->
     <div class="overlay">
         <div class="popup">
             <p>Your BMI is <span id="currentBMI">--</span><br>
-            <br>
-            You are currently <span id="currentWeight"></span><br>
-            <br>
-            Here are some tips for better health!<br>
+                <br>
+                You are currently <span id="currentWeight"></span><br>
+                <br>
+                Here are some tips for better health!<br>
                 <br>
                 Maintain a Healthy Weight<br>
                 Increase Physical Activity<br>
@@ -229,16 +230,15 @@ Section 4
         </div>
     </div>
 
-    <div class="name-box">
-        By: Derek Johnson
-    </div>
 
+    <!-- JAVASCRIPT CODE -->
     <script type="text/javascript">
 
         var feet;
         var inches;
         var weight;
         var BMI;
+        var newHeight;
 
         // Keep buttons from refreshing the page
         document.querySelector("#no-refresh-btn1").addEventListener("click", function(event) {event.preventDefault();}, false);
@@ -246,17 +246,9 @@ Section 4
         document.querySelector("#no-refresh-btn3").addEventListener("click", function(event) {event.preventDefault();}, false);
         document.querySelector("#no-refresh-btn4").addEventListener("click", function(event) {event.preventDefault();}, false);
         document.querySelector("#no-refresh-btn5").addEventListener("click", function(event) {event.preventDefault();}, false);
-
-        // Make buttons work with enter key
-        var input = document.getElementById("myInput");
-        input.addEventListener("keyup", function(event) {
-            if (event.keyCode === 13) {
-                event.preventDefault();
-                document.getElementById("myBtn").click();
-            }
-        });
-
-        // Functions
+        
+        // FUNCTIONS 
+        // Show and hide error message
         function displayError(errorNum) {
             document.getElementsByClassName("error-message")[errorNum].style.display = "block";
         };
@@ -265,6 +257,7 @@ Section 4
             document.getElementsByClassName("error-message")[errorNum].style.display = "none";
         };
 
+        // Show and hide the popup boxes
         function showPopUp(elementNum) {
             document.getElementsByClassName("overlay")[elementNum].style.display = "block";
         };
@@ -273,6 +266,7 @@ Section 4
             document.getElementsByClassName("overlay")[elementNum].style.display = "none";
         };
 
+        // To clear the user input
         function clearVals() {
             document.getElementById("feet").value = '';
             document.getElementById("inches").value = '';
@@ -283,7 +277,8 @@ Section 4
             feet = document.getElementById("feet").value;
             inches = document.getElementById("inches").value;
 
-            // Error check to see if invalid values are entered
+            /* Error check to see if invalid values are entered
+               And then get the values that are entered */
             if (isNaN(feet) == true || feet < 0) {
                 displayError(0);
                 clearVals();
@@ -301,7 +296,8 @@ Section 4
         function getWeight() {
             weight = document.getElementById("weight").value;
 
-            // Error check to see if invalid values are entered
+            /* Error check to see if invalid values are entered
+               Then calculate the BMI if the values are valid */
             if (isNaN(weight) == true || weight < 0) {
                 displayError(1);
                 clearVals();
@@ -330,6 +326,7 @@ Section 4
                     BMI = (weight/totalInches**2) * 703;
                 }
 
+                // Decide what category the BMI value falls in
                 if (BMI < 18.5) {
                     return "underweight";
                 } else if (BMI < 25) {
